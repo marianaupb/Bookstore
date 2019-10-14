@@ -7,6 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 @Entity //it represents a table in a database
 public class Book {
 
@@ -15,6 +18,7 @@ public class Book {
 	private long id; //long is better than integer. it's also accepts numbers longer than integers
 	
 	@ManyToOne
+	@JsonIgnore //are considered to be ignored in JSON serialization and deserialization
 	@JoinColumn(name = "categoryId", nullable = true)
 	private Category category;
 	
