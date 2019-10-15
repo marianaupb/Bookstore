@@ -84,6 +84,13 @@ public class Book {
 		this.category = category;
 	}
 	
+	@Override
+	public String toString() {
+		if (this.category != null)
+			return "Book [id=" + id + ", author=" + author + ", title=" + title + ", isbn=" + isbn + " category =" + this.getCategory() + "]";		
+		else
+			return "Book [id=" + id + ", author=" + author + ", title=" + title + ", isbn=" + isbn + "]";
+	}
 	
 	
 }

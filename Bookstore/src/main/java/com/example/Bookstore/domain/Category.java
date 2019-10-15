@@ -50,5 +50,9 @@ public class Category {
 	public void setBook(List<Book> book)	{
 		this.book = book;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "Category [id=" + id + ", name=" + name + "]";
+	}
 }

@@ -25,7 +25,13 @@ public class BookController {
 
 	@Autowired
 	private CategoryRepository catrepository;
-
+	
+	//show all books - login page
+	@RequestMapping(value="/login")
+    public String login() {	
+        return "login";
+    }	
+	
 	// show all books
 	@RequestMapping(value = "/booklist")
 	public String bookList(Model model) {
@@ -33,7 +39,7 @@ public class BookController {
 		return "booklist";
 	}
 
-	// RESTful service to get book by id
+	// RESTful service to get book by id into the searchbar
 	@RequestMapping(value = "/booklist/{id}", method = RequestMethod.GET)
 	// optional replace null:
 	public String findBookRest(@PathVariable("id") long id, Model model) {
