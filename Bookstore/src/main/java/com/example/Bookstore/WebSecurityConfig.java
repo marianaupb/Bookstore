@@ -19,15 +19,18 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import com.example.Bookstore.web.UserDetailServiceImpl;
 
-@Configuration // Indicates that a class declares one or more @Bean methods andmay be processed
+ // Indicates that a class declares one or more @Bean methods andmay be processed
 				// by the Spring
 				// container to generate bean definitions andservice requests for those beans at
 				// runtime
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-@EnableWebSecurity // Add this annotation to an @Configuration class to have the Spring
+
+ // Add this annotation to an @Configuration class to have the Spring
 					// Securityconfiguration
 					// defined in any WebSecurityConfigurer or more likely by extendingthe
 					// WebSecurityConfigurerAdapter base class and overriding individual methods
+@Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
@@ -51,6 +54,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,13 +26,13 @@ public class BookController {
 
 	@Autowired
 	private CategoryRepository catrepository;
-	
-	//show all books - login page
-	@RequestMapping(value="/login")
-    public String login() {	
-        return "login";
-    }	
-	
+
+	// show all books - login page
+	@RequestMapping(value = "/login")
+	public String login() {
+		return "login";
+	}
+
 	// show all books
 	@RequestMapping(value = "/booklist")
 	public String bookList(Model model) {
@@ -39,7 +40,7 @@ public class BookController {
 		return "booklist";
 	}
 
-	// RESTful service to get book by id into the searchbar
+	// RESTful service to get book by id into the search bar
 	@RequestMapping(value = "/booklist/{id}", method = RequestMethod.GET)
 	// optional replace null:
 	public String findBookRest(@PathVariable("id") long id, Model model) {
@@ -60,22 +61,35 @@ public class BookController {
 		return "addbook";
 	}
 
-	// saving the new book and return to booklist
+	// edit
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(value = "/editbook/{id}")
+	public String editBook(@PathVariable("id") Long id, Model model) {
+		model.addAttribute("book", repository.findById(id));
+		model.addAttribute("category", catrepository.findAll());
+		return "editbook";
+	}
+	
+	//saving the book edited and return to book list
+	@RequestMapping(value = "/saveEdition", method = RequestMethod.POST)
+	public String saveEdition(Book books) {
+		repository.save(books);
+		return "redirect:booklist";
+	}
+
+	// saving the new book and return to book list
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public String save(Book books) {
 		repository.save(books);
 		return "redirect:booklist";
 	}
 
+	// delete
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-	public String deleteStudent(@PathVariable("id") Long id, Model model) {
+	public String deleteBook(@PathVariable("id") Long id, Model model) {
 		repository.deleteById(id);
 		return "redirect:../booklist";
 	}
 
 }
-//RESTful service to get all books
-// @RequestMapping(value="/books", method = RequestMethod.GET)
-// public @ResponseBody List<Book> bookListRest() {
-// return (List<Book>) repository.findAll();
-// }

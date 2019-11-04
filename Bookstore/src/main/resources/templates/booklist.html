@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <title>Book List</title>
 <meta http-equiv="Content-Type" context="text/html" charset="UTF-8">
@@ -27,28 +28,35 @@
 		<table class="table table-striped">
 			<thead>
 				<tr>
+					<th>Id</th>
 					<th>Author</th>
 					<th>Title</th>
 					<th>ISBN</th>
 					<th>Year</th>
 					<th>Category</th>
-					<th sec:authorize="hasAuthority('ADMIN')"> </th>
+					<th sec:authorize="hasAuthority('ADMIN')"></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="book: ${books}">
+					<td><span th:text="${book.id}">Id</span></td>
 					<td><span th:text="${book.author}">Author</span></td>
 					<td><span th:text="${book.title}">Title</span></td>
 					<td><span th:text="${book.isbn}">ISBN</span></td>
 					<td><span th:text="${book.year}">Year</span></td>
 					<td><span th:text="${book.category.name}">Category</span></td>
-					<td sec:authorize="hasAuthority('ADMIN')"><a class="btn btn-danger"
-						th:href="@{/delete/{id}(id=${book.id})}">Delete</a></td>
+
+					<td sec:authorize="hasAuthority('ADMIN')"><a
+					class="btn btn-sm btn-danger" th:href="@{/delete/{id}(id=${book.id})}">Delete</a></td>
+
+					<td sec:authorize="hasAuthority('ADMIN')"><a
+					class="btn btn-sm btn-danger" th:href="@{/editbook/{id}(id=${book.id})}">Edit Book</a></td>
 				</tr>
+				
+				<td sec:authorize="hasAuthority('ADMIN')"><a
+					class="btn btn-success" href="/addbook">Add Book</a></td>
 			</tbody>
 		</table>
-
-		<a class="btn btn-success" href="/addbook">Add Book</a>
 </body>
 
 </html>
